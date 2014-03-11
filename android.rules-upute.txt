@@ -1,0 +1,3 @@
+Bus 003 Device 003: ID 04e8:681d Samsung Electronics Co., Ltd Galaxy Portal/Spica Android Phone
+Bus 003 Device 004: ID 04e8:689e Samsung Electronics Co., Ltd GT-S5670 [Galaxy Fit]
+

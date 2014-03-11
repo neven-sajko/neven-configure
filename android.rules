@@ -1,0 +1,22 @@
+#lsusb output:
+#Bus 003 Device 003: ID 04e8:681d Samsung Electronics Co., Ltd Galaxy Portal/Spica Android Phone
+#Bus 003 Device 004: ID 04e8:689e Samsung Electronics Co., Ltd GT-S5670 [Galaxy Fit]
+#
+#689e je kad je uključen USB debugging
+
+
+
+#s nekog bloga
+SUBSYSTEMS==”usb”, ATTRS{idVendor}==”04e8″, ATTRS{idProduct} ==”689e”, MODE=”0666″
+
+#službeno od Androida primjer
+SUBSYSTEM=="usb", ATTR{idVendor}=="0bb4", MODE="0666", GROUP="plugdev" 
+
+
+#regex
+SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="68[19][ed]", MODE="0666"
+
+#USB debugging
+SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="689e", MODE="0666", SYMLINK+="gt-s5830 gt-s5830_debugging"
+#normalno
+SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="681d", MODE="0666", SYMLINK+="gt-s5830"
