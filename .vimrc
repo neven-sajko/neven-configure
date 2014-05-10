@@ -4,7 +4,7 @@ set ruler
 
 syntax on
 filetype plugin indent on
-" set autoindent
+set autoindent
 
 " kakav bekgraund
 set background=dark
