@@ -1,5 +1,8 @@
 [user]
 	name = Neven Sajko
 	email = nsajko@gmail.com
+[core]
+	editor = vim
+	compression = 4
 [color]
 	ui = auto
