@@ -12,16 +12,18 @@ set scrolloff=2
 set sidescrolloff=4
 set backspace=2
 set ruler
-set background=dark
+"set background=dark
 
 syntax on
 filetype on
 filetype plugin indent on
-set autoindent
+"set autoindent
 
+"spell checking and automatic wrapping for git commits
+autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " za pajton
-" # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+" # im: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 " set modeline
 set tabstop=8
 set expandtab
