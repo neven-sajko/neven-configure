@@ -6,3 +6,5 @@
 	compression = 4
 [color]
 	ui = auto
+[push]
+	default = matching
