@@ -1,7 +1,7 @@
 "filetype off
 "execute pathogen#infect()
 "
-"let g:syntastic_python_checkers = ['pyflakes3', 'pep8' ]
+"let g:syntastic_python_checkers = ['flake8', 'pyflakes3', 'pep8' ]
 "let g:syntastic_auto_loc_list = 0
 "let g:syntastic_check_on_open = 0
 "let g:syntastic_stl_format = '(>%fe /%t)'
@@ -17,14 +17,14 @@ set ruler
 syntax on
 filetype on
 filetype plugin indent on
-"set autoindent
 
 "spell checking and automatic wrapping for git commits
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " za pajton
 " # im: tabstop=8 expandtab shiftwidth=4 softtabstop=4
-" set modeline
+" set nomodeline
+set modelines=3
 set tabstop=8
 set expandtab
 set shiftwidth=4
