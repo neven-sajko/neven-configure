@@ -3,7 +3,7 @@
 	email = nsajko@gmail.com
 [core]
 	editor = vim
-	compression = 4
+	compression = 6
 [color]
 	ui = auto
 [push]

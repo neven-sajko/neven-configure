@@ -13,6 +13,7 @@ set sidescrolloff=4
 set backspace=2
 set ruler
 "set background=dark
+set synmaxcol=100 " ignorira se sintaksa u liniji nakon danog stupca
 
 syntax on
 filetype on
