@@ -1,4 +1,0 @@
-#USB debugging
-SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="689e", MODE="0666", SYMLINK+="gt-s5830 gt-s5830_debugging"
-#normalno
-SUBSYSTEM=="usb", ATTR{idVendor}=="04e8", ATTR{idProduct}=="681d", MODE="0666", SYMLINK+="gt-s5830"

@@ -4,10 +4,7 @@
 #
 #689e je kad je uključen USB debugging
 
-
-
-#s nekog bloga
-SUBSYSTEMS==”usb”, ATTRS{idVendor}==”04e8″, ATTRS{idProduct} ==”689e”, MODE=”0666″
+# udev rules for a lot of android phones: github.com/M0Rf30/android-udev-rules
 
 #službeno od Androida primjer
 SUBSYSTEM=="usb", ATTR{idVendor}=="0bb4", MODE="0666", GROUP="plugdev" 
