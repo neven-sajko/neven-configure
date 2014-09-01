@@ -2,9 +2,10 @@
 # ~/.bash_profile
 #
 
-export PATH=$PATH:~/go/bin
-export GOPATH=~/go
+export PATH="${PATH}:~/bin"
+export GOPATH="~"
 export EMAIL='nsajko@gmail.com'
+export HISTCONTROL='ignoredups'
 
 export XZ_DEFAULTS='-4 --extreme'
 # -2 for when volatile memory is scarce
