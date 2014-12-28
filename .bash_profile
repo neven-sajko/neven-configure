@@ -1,9 +1,9 @@
 #
 # ~/.bash_profile
 #
-
-export PATH="${PATH}:~/bin"
-export GOPATH="~"
+echo 'Reading ~/.bash_profile'
+export PATH="$PATH:$HOME/bin"
+export GOPATH="$HOME"
 export EMAIL='nsajko@gmail.com'
 export HISTCONTROL='ignoredups'
 

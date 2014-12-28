@@ -8,25 +8,44 @@
 
 set nocompatible
 
-set modelines=3
+set encoding=utf-8
+set fileencodings=utf-8,latin1
+set fileencoding=utf-8
+set fileformats=unix
+set modelines=0
 
 set tabpagemax=8
-set scrolloff=2
-set sidescrolloff=4
-set synmaxcol=100 " ignorira se sintaksa u liniji nakon danog stupca
 
-syntax on
+"syntax on
+set synmaxcol=128 " ignorira se sintaksa u liniji nakon danog stupca
 filetype plugin indent on
 
-"spell checking and automatic wrapping for git commits
-autocmd Filetype gitcommit setlocal spell textwidth=72
+" spell checking and automatic wrapping for text files
+autocmd Filetype text setlocal spell textwidth=72
 
-" za Python
-" # im: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 set backspace=indent,eol,start
 set tabstop=8
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 
+set scrolloff=2
+set sidescrolloff=4
+
+"set colorcolumn=72
 set ruler
+set incsearch
+set cmdheight=2
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+"if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+"endif
+
+
+"todo:
+"textwidth
+"column numbers

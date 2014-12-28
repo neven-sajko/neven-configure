@@ -4,10 +4,11 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+echo 'Reading ~/.bashrc'
 
-#why doesn't bash export this? (POSIX or dumb?)
 ## Prompt String Parameters
-PS1='\u@\H@\t\W$?\r'
+#PS1='\u@\H@\t\W$?'
+PS1='#$? '
 
 set -bC -o vi -o ignoreeof
 # POSIX shell options:
@@ -17,9 +18,16 @@ set -bC -o vi -o ignoreeof
 
 alias ls='ls --color=auto'
 alias debug='set -uvx'
-
+alias remir='sudo reflector --verbose -l32 -f8 --sort rate --save /etc/pacman.d/mirrorlist'
+alias p='sudo cpupower frequency-set -g performance'
 
 # Move this to a separate file from which it can be sourced!
 
 # Why are they killing whitespace? Investigate!
 deko () { echo "x$@x"; }
+
+tsan(){
+TSAN_OPTIONS='log_path=~/tsan-log verbosity=1'\
+export TSAN_OPTIONS;
+$@;
+}
