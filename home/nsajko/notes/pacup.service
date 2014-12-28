@@ -1,0 +1,8 @@
+#
+#
+#
+
+If there's news,
+display archlinux.org.
+Ask if you'd want to update.
+(Any nonempty input cancels the update.)

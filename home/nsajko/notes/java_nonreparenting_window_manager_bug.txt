@@ -1,0 +1,8 @@
+Some Java graphical applications misbehave with nonreparenting
+unrecognized window managers.
+Some ad hoc fixes are:
+
+wmname LG3D
+wmname Sawfish
+export _JAVA_AWT_WM_NONREPARENTING=1 #when implemented in jdk
+github.com/sampowers/dotfiles/blob/master/bin/java_nonreparenting_wm_hack.sh

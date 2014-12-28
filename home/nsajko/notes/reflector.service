@@ -1,0 +1,17 @@
+#
+# /etc/systemd/system/reflector.service
+#
+
+# https://www.archlinux.org/packages/?name=reflector
+# http://xyne.archlinux.ca/projects/reflector/
+
+[Unit]
+Description=Updater of Pacman's list of mirrors.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/reflector --verbose --latest 250 --number 200 --sort rate\
+          --save /etc/pacman.d/mirrorlist
+
+# THIS IS UNTESTED AND I STILL NEED TO LEARN MORE ABOUT SYSTEMD AND ITS
+# SERVICES
