@@ -3,8 +3,28 @@
 	email = nsajko@gmail.com
 [core]
 	editor = vim
-	compression = 6
-[color]
-	ui = auto
+	compression = 8
+	pager = diff-so-fancy | less
 [push]
 	default = matching
+[sendemail]
+	smtpEncryption = tls
+	smtpServer = smtp.gmail.com
+	smtpUser = nsajko@gmail.com
+	smtpServerPort = 587
+[http]
+	cookiefile = /home/nsajko/.gitcookies
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 227
+	frag = magenta bold
+	commit = 227 bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[diff-so-fancy]
+	stripLeadingSymbols = true
