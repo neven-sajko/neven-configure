@@ -1,0 +1,57 @@
+#! /bin/sh
+set -u
+
+# Opens Chrome/Chromium's bookmark manager. For X Windows.
+#
+# Configuration: You might want to edit the shell variables here at the beginning of the script.
+#
+# The Chrome bookmarks manager is accessible through the chrome://bookmarks page, but Chrome sadly doesn't let chrome:// URLs be opened from the command-line. Here we use xdotool to find Chrome's WID and type in the URI.
+#
+# Usage: 'bkm [flags]'
+#
+# All command-line arguments are passed through to Chromium.
+
+chromExecutable=chromium
+chromXWindowClassRegexp='^chromium$'
+
+stringToType='chrome://bookmarks
+'
+
+# How long to wait for Chromium to start a window.
+# Should not be necessary if xdotools search is used with --sync
+#sleepSeconds=1.7
+
+######################################################################
+
+# Returns true if there is just one argument.
+notOne () {
+	false=1
+	true=0
+
+	case "$#" in
+	1)
+		return "$false"
+		;;
+	*)
+		return "$true"
+		;;
+	esac
+}
+
+"$chromExecutable" "$@" &
+#sleep "$sleepSeconds"
+
+# Find X Windows window ID.
+IFS='
+'
+set -- `xdotool search --sync --all --onlyvisible --pid "$!" --class "$chromXWindowClassRegexp"`
+
+if notOne "$@"; then
+	error="We got less or more than one window IDs :(
+Here are they: $@"
+	echo "$error" 1>&2
+	exit 13
+fi
+
+# Type the URI.
+xdotool windowactivate --sync "$1" type "$stringToType"

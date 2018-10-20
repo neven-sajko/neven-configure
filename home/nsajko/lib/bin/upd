@@ -1,0 +1,17 @@
+#! /bin/rc
+fn count{
+	c=`{checkupdates|wc}
+	printf %s $c(1)
+}
+
+fn sysup{
+	if(test `{count} -gt 0){
+		checkupdates &
+		$webBrowser $1
+		sudo pacman -Syu
+	}
+}
+
+webBrowser=tb sysup https://www.archlinux.org
+
+sudo paccache -r -k0

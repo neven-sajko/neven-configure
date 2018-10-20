@@ -1,0 +1,3 @@
+#! /bin/sh
+
+/bin/strace -s 128 -a 128 "$@"

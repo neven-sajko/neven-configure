@@ -1,0 +1,7 @@
+#! /bin/sh
+
+f() {
+	clang-format '-style={BasedOnStyle: llvm, AllowShortFunctionsOnASingleLine: Empty, AlwaysBreakAfterReturnType: AllDefinitions, AlwaysBreakBeforeMultilineStrings: true, ContinuationIndentWidth: 8, IndentPPDirectives: AfterHash, IndentWidth: 8, UseTab: ForContinuationAndIndentation, ColumnLimit: 91, SortIncludes: false, PenaltyBreakComment: 0, PenaltyBreakString: 0, PenaltyReturnTypeOnItsOwnLine: 0}'
+}
+
+f | f | f | f

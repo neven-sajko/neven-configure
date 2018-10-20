@@ -1,0 +1,7 @@
+#! /bin/sh
+
+#sudo reflector --verbose -x '^rsync' -l128 -f8 --sort rate --save /etc/pacman.d/mirrorlist
+#cat /etc/pacman.d/mirrorlist
+
+sudo reflector --verbose -x '^rsync' -l128 -f4 --sort rate
+sudo reflector --verbose -x '^rsync' -l128 -f4 --sort rate --save /etc/pacman.d/mirrorlist

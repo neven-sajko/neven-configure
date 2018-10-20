@@ -1,0 +1,120 @@
+#! /bin/sh
+set -u
+
+# Runs Chromium with a temporary copy of a selected subset of the user's data without writing to the default Chromium configuration data. Copies data for Chrome to a directory in /tmp (or wherever you configure), and that's about the only place on the file system the executed Chrome instance should read or write from while it's running.
+# No jails/containers/namespaces, just copying directories to /tmp and setting some environment variables.
+#
+# Use it if you want independent browser sessions running simultaneously, don't want your browser to store unnecessary information to disk, if you need a nice way to manage argv switches for Chromium, if you simply want more control or want to learn about Chromium, if you want to test something without ruining your configuration, etc. Also, tmpfs I/O is faster than permanent storage, so this might provide performance benefits.
+#
+# Why not just use Chrome Incognito mode? Most importantly, Incognito mode is trivially detectable from Javascript. Also, this script enables ensuring that *no* data is written to disk or preserved (just be sure to delete the directory the script tells you about). From a less privacy minded perspective, this provides a bit more power than Incognito mode.
+#
+# This is meant to be used for general purpose browsing, run chromium (or the wrapper bkm) for making lasting settings changes or managing your bookmarks.
+#
+# Configuration: You might want to edit the shell variables here at the beginning of the script.
+#
+# Usage: 'tb [flags] [URLs]'
+#
+# All command-line arguments are passed through to Chromium.
+
+# Example directory tree during usage:
+#
+# /tmp
+# └── TChromb9e[...]08d                      # We make one of these for every invocation of this program, so multiple Chrome sessions could run simultaneously. Set as HOME for Chrome.
+#     ├── cache                              # Passed as XDG_CACHE_HOME to Chrome.
+#     ├── .config
+#     │   └── chromium
+#     ├── data                               # Passed to Chrome in argv with --user-data-dir
+#     │   ├── BrowserMetrics-active.pma
+#     │   ├── BrowserMetrics-spare.pma
+#     │   ├── Certificate Revocation Lists
+#     │   ├── CertificateTransparency
+#     │   ├── Default                        # The default "profile" data location. This is where we put data for Chrome.
+#     │   ├── EVWhitelist
+#     │   ├── FileTypePolicies
+#     │   ├── Local State
+#     │   ├── OriginTrials
+#     │   ├── ShaderCache
+#     │   ├── SingletonCookie
+#     │   ├── SingletonLock
+#     │   ├── SingletonSocket
+#     │   └── SSLErrorAssistant
+#     └── .pki
+#         └── nssdb
+
+# The following may need editing.
+chromExecutable=chromium
+chromConf="$HOME/.config/chromium"
+chromProfile=Default
+
+targetDirTemplate=/tmp/TChrom
+
+# Chrome non-long-term-supported options. Kept in 'Local State' if set on chrome://flags, but we don't copy that file for Chromium, instead passing the settings as command arguments.
+# See https://peter.sh/experiments/chromium-command-line-switches/ for more switches and explanations.
+#
+# Some other useful switches; for privacy, etc.:
+# --disable-reading-from-canvas --no-referrers
+# --use-fake-device-for-media-stream --use-file-for-fake-audio-capture --use-file-for-fake-video-capture
+# --use-mobile-user-agent --user-agent
+flagSwitches='--enable-dom-distiller --no-first-run --no-pings --enable-scripts-require-action --reduced-referrer-granularity'
+
+# Files from the Chrome profile directory "$chromConf/$chromProfile" that will be used for the "session" of the Chrome instance we'll execute.
+# Includes bookmarks, Chrome extension data, web auth data, Chrome preferences, and settings for non-default "search engines". In short, the aim is to preserve only the useful stuff.
+# For example, removing Login Data from this list should prevent your passwords from being copied for the chromium instance we'll execute to use.
+filesForChrome='Bookmarks,Extension Cookies,Extension Rules,Extension State,Extensions,Local Extension Settings,Local Storage,Login Data,Preferences,Web Data'
+
+######################################################################
+
+set -e
+
+# Get a random string for naming the temporary directory.
+r='s_\([^ ]*\).*_\1_'
+id=`dd 'if=/dev/urandom' 'count=1' 'bs=256' 2>/dev/null | sha256sum | sed "$r"`\
+`date -u | sha256sum | sed "$r"`
+
+d="$targetDirTemplate$id"
+
+# Create the temporary directory tree for Chromium, copying over existing data.
+mask=`umask`
+umask 077
+mkdir "$d" "$d/data" "$d/data/Default" "$d/cache"
+#cp -r "$chromConf/$chromProfile" "$d/data/Default"
+cd "$chromConf/$chromProfile"
+IFS=,
+cp -r $filesForChrome "$d/data/Default"
+umask "$mask"
+
+export HOME XDG_CACHE_HOME
+XDG_CACHE_HOME="$d/cache"
+HOME="$d"
+cd "$d"
+
+echo "Chrome dir $d"
+
+# Chromium's Incognito mode is trivially detectable from Javascript, so we don't use it here.
+IFS=' '
+exec "$chromExecutable" "--user-data-dir=$d/data" $flagSwitches "$@"
+
+# If you wanted to delete the data after Chrome exits:
+#sleep 1 && rm -r "$d"
+
+# Issues:
+# The user should be warned somehow that bookmarks changes don't get applied to the source bookmarks file.
+
+# General notes about Chromium
+#
+# Suggestions for configuring Chromium: set chrome://newtab as the start page.
+#
+# Some Chrome extensions:
+# https://github.com/gorhill/uMatrix
+# https://github.com/jswanner/DontFuckWithPaste
+# https://github.com/andryou/scriptsafe
+# https://github.com/maximelebreton/quick-javascript-switcher
+# https://www.eff.org/privacybadger
+#
+# A patchset. Use it, e.g., for removing WebRTC
+# https://github.com/gcarq/inox-patchset
+
+# Check how identifiable your web browser is making you.
+#
+# https://panopticlick.eff.org
+# https://amiunique.org

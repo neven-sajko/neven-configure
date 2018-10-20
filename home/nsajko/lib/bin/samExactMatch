@@ -1,0 +1,6 @@
+#! /bin/sh
+set -u
+
+word="$1"
+
+printf 'g,%s, v,%s.,\n' "$word" "`printf '%s' "$word" | tr -c '' '.'`"

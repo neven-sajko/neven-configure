@@ -1,0 +1,6 @@
+#! /bin/sh
+set -u
+
+IFS='	 '
+"$CC" $CFLAGS "$@"
+#&& ./a.out
